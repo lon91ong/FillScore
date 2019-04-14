@@ -45,10 +45,12 @@ function execFill() {
                 //console.log(sTable.rows[i].cells[2].innerText + "没成绩!");
                 if(idnum.slice(0,2)<queStr.slice(-4,-2)){
                 	console.info(sTable.rows[i].cells[2].innerText + "-降级!");
-                	$("select", sTable.rows[i].cells[8])[0].value = "降级";
+                	//$("select", sTable.rows[i].cells[8])[0].value = "降级";
+			$("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
                 }else{
                 	console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
-                	$("select", sTable.rows[i].cells[8])[0].value = "缺考";
+                	//$("select", sTable.rows[i].cells[8])[0].value = "缺考";
+			$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
                 }
             }
         }
