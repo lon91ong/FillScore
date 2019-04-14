@@ -1,6 +1,14 @@
 自动填写成绩
 ===============
 
+使用说明
+----------
+
+SELECT id, score FROM students WHERE class = 'Your Class'
+
+如上所述，成绩保存在students表单里，students表单有学号（id）、姓名（name）、班级（class）和成绩（score）四个字段
+（待续...）
+
 JavaScript的习作
 ------------------
 
