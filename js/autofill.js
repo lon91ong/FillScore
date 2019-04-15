@@ -3,7 +3,7 @@
 const insP = document.querySelector('#headDiv > ul');
 const exeNode = document.createElement("li")
 exeNode.class = "top";
-exeNode.innerHTML = '<a class="top_link"><span> 执行填表</span><!--[if gte IE 7]><!--></a>';
+exeNode.innerHTML = '<a class="top_link"><span> 执行填表</span></a>';
 var execBtn = insP.insertBefore(exeNode, insP.childNodes[8]);
 execBtn.style.display="none"; //先不显示
 var queStr = ''; //保存班级名称
@@ -30,9 +30,10 @@ function execFill() {
     for (var i = 1; i < sTable.rows.length; i++) { //排除表头行
         //var tds = [];
         //tds = trs[i].getElementsByTagName("td");
-        //var idnum = tds[1].innerText; //学号
-        var idnum = sTable.rows[i].cells[1].innerText;
-        //console.log('Here:'+ i+"--" + idnum);
+        //读取表单学号, 去掉末尾可能出现的空白字符
+        //var idnum = tds[1].innerText.replace(/(\s|\u00A0)+$/,''); 
+        var idnum = sTable.rows[i].cells[1].innerText.replace(/(\s|\u00A0)+$/,'');
+        //console.info('Here:'+quRes[i-1][0].length+'--'+idnum.length,(quRes[i-1][0]==idnum));
         for (var j = 0; j < quRes.length; j++) {
             if (idnum == quRes[j][0] && quRes[j][1] != null) {
                 //var inputs = [];
