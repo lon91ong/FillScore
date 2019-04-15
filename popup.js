@@ -31,6 +31,6 @@ dbFileElm.onchange = function() {
             bg.gPort.postMessage({ queryR: value[0].values });\
         }).catch(err => {\
             console.error(err);\
-        })',1000);
+        })',200);
     }
 }
