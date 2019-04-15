@@ -26,10 +26,11 @@ dbFileElm.onchange = function() {
     
     if (bg.gPort != [] && bg.queVal != "") {
         //var sqlcmd = "SELECT id, score FROM students WHERE " + bg.queId + " = '" + bg.queVal + "';";
+        //不延时可能会数据库加载完成前查询，导致失败
         setTimeout('bg.execute("SELECT id, score FROM students WHERE " + bg.queId + " = \'" + bg.queVal + "\';").then(value => {\
             bg.gPort.postMessage({ queryR: value[0].values });\
         }).catch(err => {\
             console.error(err);\
-        })',2000);
+        })',1000);
     }
 }
