@@ -3,7 +3,7 @@
 const insP = document.querySelector('#headDiv > ul');
 const exeNode = document.createElement("li")
 exeNode.class = "top";
-exeNode.innerHTML = '<a class="top_link"><span> 执行填表</span></a>';
+exeNode.innerHTML = '<a class="top_link"><span> 执行填表</span><!--[if gte IE 7]><!--></a>';
 var execBtn = insP.insertBefore(exeNode, insP.childNodes[8]);
 execBtn.style.display="none"; //先不显示
 var queStr = ''; //保存班级名称
@@ -11,7 +11,14 @@ const iframe = document.getElementById("frame_content");
 const port = chrome.runtime.connect(chrome.runtime.id, { name: 'msgSQL' }); //长消息端口
 var quRes = [];
 var sTable = [];
-/*var idoc = iframe.contentDocument;
+//var idoc = iframe.contentDocument;
+port.onMessage.addListener(function(msg) {
+    console.info('收到' + msg.queryR.length + '条记录。');
+    execBtn.addEventListener("click", execFill, true);
+    quRes = msg.queryR;
+    if (sTable.rows.length > 1) { execFill(); }
+});
+port.postMessage({action:'enable',conStr:'activate'}) //extension enabled
 /* DOMContentLoaded
 //document.addEventListener('DOMContentLoaded', function () {
 //document.addEventListener('DOMSubtreeModified', function () {
@@ -47,11 +54,11 @@ function execFill() {
                 if(idnum.slice(0,2)<queStr.slice(-4,-2)){
                 	console.info(sTable.rows[i].cells[2].innerText + "-降级!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "降级";
-			$("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
+                	$("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
                 }else{
                 	console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "缺考";
-			$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
+                	$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
                 }
             }
         }
@@ -60,12 +67,6 @@ function execFill() {
     $('#Button1', iframe.contentDocument)[0].click(); //保存
 }
 
-port.onMessage.addListener(function(msg) {
-    console.info('收到' + msg.queryR.length + '条记录。');
-    execBtn.addEventListener("click", execFill, true);
-    quRes = msg.queryR;
-    if (sTable.rows.length > 1) { execFill(); }
-});
 //var observer = new MutationObserver(function(mutations) {
 /*
 mutations.forEach(function(mutation) {
@@ -97,7 +98,6 @@ iframe.onload = function() {
         console.log('Class not found!');
         execBtn.style.display="none"; //不是填表页，隐藏按钮
     } //", 2000);
-
     if (queStr != '') {
         try {
             port.postMessage({ action: 'query', conStr: queStr });
