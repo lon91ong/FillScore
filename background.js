@@ -27,22 +27,14 @@ function execute(commands) {
     });
 }
 
-/* 短消息
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    //var sqlcmd = 'SELECT "name" FROM "students" WHERE "id" =' + request+';';
-    var sqlcmd = "SELECT id, name FROM students WHERE " + queId + " = " + JSON.stringify(msg.queryS) + ";";
-    console.log('msg:' + sqlcmd);
-    queVal = msg.queryS;
-    //console.log('收到来自content-script的消息：' + JSON.stringify(request));
-    //console.log(request, sender, sendResponse);
-    execute(sqlcmd).then((value) => {
-        sendResponse({ queryR: value[0][0].values });
-    }).catch((err) => {
-        console.error(err);
+/* 获取当前页面tabid
+function getCurrentTabId(callback) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        if (callback) callback(tabs.length ? tabs[0].id : null);
     });
-});
-*/
-function qRequest(msg) {
+}*/
+
+function qRequest(msg,sendingPort) {
     //if(msg.action =="query"){
     let act = {
         'query': () => {
@@ -64,6 +56,12 @@ function qRequest(msg) {
                 title: '提示',
                 message: '成功录入' + msg.conStr + '个成绩！\n保存成功，请手动提交！\n请自行检查成绩，录错后果自负!'
             });
+        },
+        'enable': () => { // extension enabled
+            //getCurrentTabId(tabId => {
+                chrome.pageAction.show(sendingPort.sender.tab.id);
+                console.info('Extension enabled in tab:'+sendingPort.sender.tab.id);
+            //});
         },
     }
     act[msg.action]();
