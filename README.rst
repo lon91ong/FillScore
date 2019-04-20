@@ -17,7 +17,7 @@ JavaScript的习作
 还有待学习的几个方面：
 
 - Promise 这个和平成接触的python用法很不一样，虽然懵懵懂懂的用对了一下，但是还没整太明白，需要再学学。
- 参考资料 `迷你书 <http://liubin.org/promises-book/>`_ ES6 Promise 简明指南:`中文版 <https://ifyour.github.io/2018/05/29/ES6-Promise-简明指南/>`_ `英文版 <https://codeburst.io/a-simple-guide-to-es6-promises-d71bacd2e13a>`_ `简明实例 <https://blog.dingkewz.com/post/tech/javascript_promise/>`_
+ 参考资料 `迷你书 <http://liubin.org/promises-book/>`_ ; ES6 Promise 简明指南:`中文版 <https://ifyour.github.io/2018/05/29/ES6-Promise-简明指南/>`_ , `英文版 <https://codeburst.io/a-simple-guide-to-es6-promises-d71bacd2e13a>`_ ; `简明实例 <https://blog.dingkewz.com/post/tech/javascript_promise/>`_
 
 - MutationObserver 这个监听没整明白
  参考 `高效监听DOM变动 <https://hijiangtao.github.io/2017/08/03/How-to-Manipulate-DOM-Effectively/>`_ `参考二 <https://javascript.ruanyifeng.com/dom/mutationobserver.html>`_
