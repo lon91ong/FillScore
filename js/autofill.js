@@ -61,10 +61,12 @@ function execFill() {
                 	console.info(sTable.rows[i].cells[2].innerText + "-降级!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "降级";
                 	$("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
+			//$("select", sTable.rows[i].cells[8])[0].options[-1].remove();
                 }else{
                 	console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "缺考";
                 	$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
+			//$("select", sTable.rows[i].cells[8])[0].options[-1].remove();
                 }
             }
         }
