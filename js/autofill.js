@@ -65,7 +65,8 @@ function execFill() {
                 }else{
                 	console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "缺考";
-                	$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
+			$("select", sTable.rows[i].cells[8])[0].find("option[value='缺考']").attr("selected",true);
+                	//$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
 			//$("select", sTable.rows[i].cells[8])[0].options[-1].remove();
                 }
             }
