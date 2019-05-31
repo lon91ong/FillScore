@@ -16,12 +16,13 @@ const iframe = document.getElementById("frame_content");
 const port = chrome.runtime.connect(chrome.runtime.id, { name: 'msgSQL' }); //长消息端口
 var quRes = [];
 var sTable = [];
+var None = null; //适配python的定义
 //var idoc = iframe.contentDocument;
 port.onMessage.addListener(function(msg) {
-    console.info('收到' + msg.queryR.length + '条记录。');
+    quRes = eval(msg.queryR);
+    console.info('收到' + quRes.length + '条记录。');
     execBtn.addEventListener("click", execFill, true);
     clsBtn.addEventListener("click", clsForm, true);
-    quRes = msg.queryR;
     if (sTable.rows.length > 1) { execFill(); }
 });
 port.postMessage({action:'enable',conStr:'activate'}) //extension enabled
@@ -61,13 +62,10 @@ function execFill() {
                 	console.info(sTable.rows[i].cells[2].innerText + "-降级!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "降级";
                 	$("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
-			//$("select", sTable.rows[i].cells[8])[0].options[-1].remove();
                 }else{
                 	console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
                 	//$("select", sTable.rows[i].cells[8])[0].value = "缺考";
-			$("select", sTable.rows[i].cells[8])[0].find("option[value='缺考']").attr("selected",true);
-                	//$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
-			//$("select", sTable.rows[i].cells[8])[0].options[-1].remove();
+                	$("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
                 }
             }
         }
@@ -93,8 +91,6 @@ mutations.forEach(function(mutation) {
 iframe.onload = function() {
     //idoc.addEventListener('DOMContentLoaded', function() {
     //iframe.ready = function(){
-    //setTimeout("console.log('timeout:'+$('#ddlBJMC > option:nth-child(1)',iframe.contentDocument)[0].attributes.value.nodeValue)", 2000);
-    //setTimeout("\
     try {
         $('#TextBox1', iframe.contentDocument)[0].value = "5678";
         if ($('#Button1', iframe.contentDocument)[0].value == "确  定") {
@@ -107,7 +103,7 @@ iframe.onload = function() {
     try {
         queStr = $('#ddlBJMC > option:nth-child(1)', iframe.contentDocument)[0].attributes.value.nodeValue;
         sTable = $('#DataGrid1', iframe.contentDocument)[0];
-        execBtn.style.display="block";
+        execBtn.style.display="block"; //显示按钮
         clsBtn.style.display="block";
         $('#rad_4', iframe.contentDocument)[0].click(); //关闭自动保存
         console.log('Class found:' + queStr);
@@ -115,7 +111,7 @@ iframe.onload = function() {
         console.log('Class not found!');
         execBtn.style.display="none"; //不是填表页，隐藏按钮
         clsBtn.style.display="none";
-    } //", 2000);
+    }
     if (queStr != '') {
         try {
             port.postMessage({ action: 'query', conStr: queStr });
