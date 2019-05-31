@@ -3,13 +3,44 @@
 //var popup = chrome.extension.getViews({ type: 'popup' })[0];
 //console.log(popup.location.href);
 
-var worker = new Worker("./js/worker.sql.js");
+//var worker = new Worker("./js/worker.sql.js");
 //worker.onerror = error;
 var gPort = [];
 var queId = 'class';
 var queVal = '';
 
-// 数据库查询功能函数
+var socket = new WebSocket("ws://10.0.18.207:8001");
+socket.onopen = function() {
+    /* 与服务器端连接成功后，自动执行 */
+};
+socket.onmessage = function(event) {
+    /* 服务器端向客户端发送数据时，自动执行 */
+    gPort.postMessage({ queryR: event.data });
+};
+socket.onclose = function(event) {
+    /* 服务器端主动断开连接时，自动执行 */
+      if (event.code == 3001) {
+        console.log('ws closed');
+        socket = null;
+      } else {
+        socket = null;
+        console.log('ws connection error');
+        //alert("数据库服务器连接失败！\n" + event.type + "\n请检查服务端！");
+      }
+};
+socket.onerror = function(event) {
+    if (socket.readyState == 1) {
+        console.log('ws normal error: ' + event.type);
+    }else{
+        console.log('ws connection error');
+    }
+};
+/*
+function closeConn() {
+    socket.close();
+}*/
+
+/* // 数据库查询功能函数
 function execute(commands) {
     console.log(commands);
     return new Promise(function(resolve, reject) {
@@ -25,8 +56,7 @@ function execute(commands) {
         };
         worker.postMessage({ action: 'exec', sql: commands });
     });
-}
-
+}*/
 /* 获取当前页面tabid
 function getCurrentTabId(callback) {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -41,12 +71,18 @@ function qRequest(msg,sendingPort) {
             if (queVal != msg.conStr) { //防止重复
                 queVal = msg.conStr;
                 //console.log('收到长连接消息：', msg.queryS);
-                var sqlcmd = "SELECT id, score FROM students WHERE " + queId + " = '" + queVal + "';";
+                var sqlcmd = "SELECT id, score FROM students WHERE " + queId + " = '" + encodeURI(queVal)+ "';";
+                if(socket.readyState == 1){ //net SQL
+                    socket.send(sqlcmd);
+                }else{
+                    alert("数据服务器连接错误，请查验后刷新重试！");
+                }
+                /* //local SQL
                 execute(sqlcmd).then(value => {
                     gPort.postMessage({ queryR: value[0].values });
                 }).catch(err => {
                     console.error(err);
-                });
+                });*/
             }
         },
         'notice': () => {
@@ -57,7 +93,7 @@ function qRequest(msg,sendingPort) {
                 message: '成功录入' + msg.conStr + '个成绩！\n保存成功，请手动提交！\n请自行检查成绩，录错后果自负!'
             });
         },
-        'enable': () => { // extension enabled
+        'enable': () => {
             //getCurrentTabId(tabId => {
                 chrome.pageAction.show(sendingPort.sender.tab.id);
                 console.info('Extension enabled in tab:'+sendingPort.sender.tab.id);
