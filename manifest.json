@@ -22,15 +22,28 @@
         "default_icon": "data/icons/19.png",
         "default_title": "Fill Score",
         "default_popup": "popup.html"
-    },    
-    "permissions": ["storage", "tabs", "notifications", "http://211.81.249.99/*"],
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    "content_scripts": 
-    [
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "notifications",
+        "http://211.81.249.99/*",
         {
-            "matches": ["http://211.81.249.99/js_main.aspx?*"],
-            "js": ["js/jquery-2.0.0.min.js", "js/autofill.js"],
-            "run_at": "document_idle"
+            "sockets":
+            {
+                "tcp":
+                {
+                    "connect": "10.0.18.207:8001"
+                }
+            }
         }
-    ]
+
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "content_scripts": [
+    {
+        "matches": ["http://211.81.249.99/js_main.aspx?*"],
+        "js": ["js/jquery-2.0.0.min.js", "js/autofill.js"],
+        "run_at": "document_idle"
+    }]
 }
