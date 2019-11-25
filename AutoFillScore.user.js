@@ -82,9 +82,9 @@ const iframe = document.getElementById("frame_content");
                     execBtn.style.display="block"; //显示按钮
                     clsBtn.style.display="block";
                     $('#rad_4', iframe.contentDocument)[0].click(); //关闭自动保存
-                    console.log('Class found:' + queStr);
-                } catch (exception) {
-                    console.log('Class not found!');
+                    console.log('Class found:' + claName);
+                } catch (err) {
+                    console.log('Class not found!\n' + err.message);
                     execBtn.style.display="none"; //不是填表页，隐藏按钮
                     clsBtn.style.display="none";
                 }
