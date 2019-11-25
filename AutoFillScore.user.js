@@ -9,6 +9,15 @@
 // @grant        none
 // ==/UserScript==
 
+var svrIP = "10.0.18.207"; //服务器IP
+var col = 5; //期末:5,总评:7
+
+var claName = ''; //保存班级名称
+var quRes = [];
+var sTable = [];
+var sqlcmd = '';
+var None = null; //适配python的定义
+
 const insP = document.querySelector('#headDiv > ul');
 const exeNode = document.createElement("li")
 const clsNode = document.createElement("li")
@@ -20,17 +29,14 @@ var execBtn = insP.insertBefore(exeNode, insP.childNodes[8]);
 var clsBtn = insP.insertBefore(clsNode,insP.childNodes[10]);
 execBtn.style.display="none"; //暂不显示
 clsBtn.style.display='none';
-var queStr = ''; //保存班级名称
+execBtn.addEventListener("click", execFill, true);
+clsBtn.addEventListener("click", clsForm, true);
 const iframe = document.getElementById("frame_content");
-var quRes = [];
-var sTable = [];
-var None = null; //适配python的定义
-var sqlcmd = '';
 
 (function() {
     'use strict';
 
-    var socket = new WebSocket("ws://10.0.18.207:8001");
+    var socket = new WebSocket("ws://" + svrIP + ":8001");
     socket.onopen = function() {
     /* 与服务器端连接成功后，自动执行 */
     };
@@ -38,8 +44,6 @@ var sqlcmd = '';
         /* 服务器端向客户端发送数据时，自动执行 */
         quRes = eval(event.data);
         console.info('收到' + quRes.length + '条记录。');
-        execBtn.addEventListener("click", execFill, true);
-        clsBtn.addEventListener("click", clsForm, true);
         //if (sTable.rows.length > 1) { execFill(); } //消息激发填充
     };
     socket.onclose = function(event) {
@@ -69,7 +73,7 @@ var sqlcmd = '';
                 tempNode[0].click();
             }else{
                 try {
-                    queStr = $('#ddlBJMC > option:nth-child(1)', iframe.contentDocument)[0].attributes.value.nodeValue;
+                    claName = $('#ddlBJMC > option:nth-child(1)', iframe.contentDocument)[0].attributes.value.nodeValue;
                     sTable = $('#DataGrid1', iframe.contentDocument)[0];
                     var saveNode = document.createElement("span"); //添加保存按钮
                     saveNode.innerHTML='<input type="submit" name="Button1" value="保  存" id="Button1" class="button" />';
@@ -84,9 +88,8 @@ var sqlcmd = '';
                     execBtn.style.display="none"; //不是填表页，隐藏按钮
                     clsBtn.style.display="none";
                 }
-                if (queStr != '') {
-                    //console.log('收到长连接消息：', queStr);
-                    sqlcmd = "SELECT id, score FROM students WHERE class = '" + encodeURI(queStr)+ "';";
+                if (claName != '') {
+                    sqlcmd = "SELECT id, score FROM students WHERE class = '" + encodeURI(claName)+ "';";
                     //if(socket.readyState == 1){ //net SQL
                     socket.send(sqlcmd);
                     //}else{
@@ -104,7 +107,7 @@ function execFill() {
         var idnum = sTable.rows[i].cells[1].innerText.replace(/(\s|\u00A0)+$/,'');//排除空白取学号
         for (var j = 0; j < quRes.length; j++) {
             if (idnum == quRes[j][0] && quRes[j][1] != null) {
-                $(".text_nor.width68", sTable.rows[i].cells[5])[0].value = quRes[j][1];
+                $(".text_nor.width68", sTable.rows[i].cells[col])[0].value = quRes[j][1];
                 n++;
                 break;
             } else if (idnum == quRes[j][0] && quRes[j][1] == null) { //没成绩
@@ -123,7 +126,7 @@ function execFill() {
 
 function clsForm(){
     for (var i = 1; i < sTable.rows.length; i++) { //排除表头行
-        $(".text_nor.width68", sTable.rows[i].cells[5])[0].value ='';
+        $(".text_nor.width68", sTable.rows[i].cells[col])[0].value ='';
         $("select", sTable.rows[i].cells[8])[0].options[2].selected = true;
     }
     //$('#Button1', iframe.contentDocument)[0].click(); //保存
