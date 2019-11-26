@@ -25,8 +25,8 @@ exeNode.class = "top";
 clsNode.class = "top";
 exeNode.innerHTML = '<a class="top_link"><span> 执行填表</span></a>';
 clsNode.innerHTML = '<a class="top_link"><span> 清空表单</span></a>';
-var execBtn = insP.insertBefore(exeNode, insP.childNodes[8]);
-var clsBtn = insP.insertBefore(clsNode,insP.childNodes[10]);
+var execBtn = insP.insertBefore(exeNode, insP.lastElementChild.nextSibling);
+var clsBtn = insP.insertBefore(clsNode, insP.lastElementChild.nextSibling);
 execBtn.style.display="none"; //暂不显示
 clsBtn.style.display='none';
 execBtn.addEventListener("click", execFill, true);
@@ -111,7 +111,7 @@ function execFill() {
                 n++;
                 break;
             } else if (idnum == quRes[j][0] && quRes[j][1] == null) { //没成绩
-                if(idnum.slice(0,2)<queStr.slice(-4,-2)){
+                if(idnum.slice(0,2)<claName.slice(-4,-2)){
                     console.info(sTable.rows[i].cells[2].innerText + "-降级!");
                     $("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
                 }else{
