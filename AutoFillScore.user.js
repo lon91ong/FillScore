@@ -35,12 +35,15 @@ const iframe = document.getElementById("frame_content");
 (function() {
     'use strict';
 
-    var headers = new Headers({
-        "Content-Type": "application/json",
-        "Client": "Greasemonkey",
-        "X-Custom-Header": "ProcessThisImmediately",
-        "Access-Control-Allow-Origin": '*',
-    });
+    const launchReq = async (reqcmd) => {
+        const headers = new Headers({
+            "Content-Type": "application/json",
+            "Client": "Greasemonkey",
+            "Access-Control-Allow-Origin": '*',
+        });
+        const response = await fetch(new Request(reqcmd, {method: 'GET', headers: headers}));
+        return response.json();
+    }
     iframe.onload = function() {
         var tempNode = $('#TextBox1', iframe.contentDocument);
         if(tempNode.length) { //存在
@@ -66,11 +69,8 @@ const iframe = document.getElementById("frame_content");
                     clsBtn.style.display="none";
                 }
                 if (claName != '') {
-                    var getReq = new Request('http://'+svrIP+':8001/class?'+encodeURI(claName), {method: 'GET', headers: headers});
-                    fetch(getReq)
-                        .then(response=> {return response.json();})
-                        .then(data =>{quRes = data;})
-                        .catch(function(error) {console.log('Fetch Error: ', error);});
+                    //想要直接把Promise的返回值赋给quRes，需要用IIFE包装一下async/await才行
+                    (async ()=>{quRes = await launchReq('http://'+svrIP+':8001/class?'+encodeURI(claName));})();
                     //setTimeout(()=>{console.log(quRes);},1000);
                 }
             }
@@ -99,8 +99,9 @@ function execFill() {
 
 function clsForm(){
     for (var i = 1; i < sTable.rows.length; i++) { //排除表头行
-        $(".text_nor.width68", sTable.rows[i].cells[col])[0].value ='';
+        $(".text_nor.width68", sTable.rows[i].cells[5])[0].value =''; //清空期末成绩
+        //$(".text_nor.width68", sTable.rows[i].cells[7])[0].value =''; //清空总评成绩
         $("select", sTable.rows[i].cells[8])[0].options[2].selected = true;
     }
-    $('#Button1', iframe.contentDocument)[0].click(); //保存
+    $('#Button4', iframe.contentDocument)[0].click(); //清空总评成绩
 };
