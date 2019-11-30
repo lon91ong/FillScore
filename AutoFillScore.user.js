@@ -94,7 +94,7 @@ function execFill() {
             }
         }
     }
-    //$('#Button1', iframe.contentDocument)[0].click(); //保存
+    $('#Button1', iframe.contentDocument)[0].click(); //保存
 };
 
 function clsForm(){
@@ -102,5 +102,5 @@ function clsForm(){
         $(".text_nor.width68", sTable.rows[i].cells[col])[0].value ='';
         $("select", sTable.rows[i].cells[8])[0].options[2].selected = true;
     }
-    //$('#Button1', iframe.contentDocument)[0].click(); //保存
+    $('#Button1', iframe.contentDocument)[0].click(); //保存
 };
