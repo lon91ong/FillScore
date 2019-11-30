@@ -71,7 +71,7 @@ const iframe = document.getElementById("frame_content");
                         .then(response=> {return response.json();})
                         .then(data =>{quRes = data;})
                         .catch(function(error) {console.log('Fetch Error: ', error);});
-                    //setTimeout(()=>{console.log(quRes);},2000);
+                    //setTimeout(()=>{console.log(quRes);},1000);
                 }
             }
         }
@@ -82,19 +82,15 @@ function execFill() {
     var n = 0;
     for (var i = 1; i < sTable.rows.length; i++) { //排除表头行
         var idnum = sTable.rows[i].cells[1].innerText.replace(/(\s|\u00A0)+$/,'');//排除空白取学号
-        for (var j = 0; j < quRes.length; j++) {
-            if (idnum == quRes[j]["id"] && quRes[j]["score"] != null) {
-                $(".text_nor.width68", sTable.rows[i].cells[col])[0].value = quRes[j]["score"];
-                n++;
-                break;
-            } else if (idnum == quRes[j]["id"] && quRes[j]["score"] == null) { //没成绩
-                if(idnum.slice(0,2)<claName.slice(-4,-2)){
-                    console.info(sTable.rows[i].cells[2].innerText + "-降级!");
-                    $("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
-                }else{
-                    console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
-                    $("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
-                }
+        if(quRes[idnum] != null){
+            $(".text_nor.width68", sTable.rows[i].cells[col])[0].value = quRes[idnum];
+        }else{ //没成绩
+            if(idnum.slice(0,2)<claName.slice(-4,-2)){
+                console.info(sTable.rows[i].cells[2].innerText + "-降级!");
+                $("select", sTable.rows[i].cells[8])[0].options[0].selected = true;
+            }else{
+                console.info(sTable.rows[i].cells[2].innerText + "-缺考!");
+                $("select", sTable.rows[i].cells[8])[0].options[1].selected = true;
             }
         }
     }
