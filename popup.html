@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        成绩自动填
+    </title>
+    <link rel="stylesheet" type="text/css" href="popup.css" />
+</head>
+
+<body>
+    <!--p id="message">加载中...</p-->
+    <div id="content">
+        <table>
+            <tbody>
+                <tr style="display: none">
+                    <td class="item-name">索引信息:</td>
+                    <td id="idName" style="text-align:center;width:80px">&nbsp;</td>
+                    <td id="idXpth" style="text-align:center;width:120px">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="item-name">数据库文件:</td>
+                    <td colspan="2">
+                        <div class="content-div" style="width:200px">
+                            <input type="file" id="dbfile">
+                        </div>
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    <td class="item-name">填写XPath:</td>
+                    <td>
+                        <div id="fill-data" class="content-div" style="width:100px">
+                            <input type="text" id="fill-name" value="Score" /></div>
+                    </td>
+                    <td>
+                        <div id="fillbox-xpath" class="content-div">
+                            <input type="text" id="fillXpth" /></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="./js/jquery-2.0.0.min.js"></script>
+    <!--script src="./js/sql.js"></script-->
+    <script src="popup.js"></script>
+</body>
+
+</html>
