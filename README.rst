@@ -4,10 +4,38 @@
 使用说明
 ----------
 
-SELECT id, score FROM students WHERE class = 'Your Class'
+    由Python版REST API服务器和Excel VBA版客户端(ScoreIn.xlsm)以及浏览器端的Greasemonkey(油猴)脚本构成。
 
-如上所述，成绩保存在students表单里，students表单有学号（id）、姓名（name）、班级（class）和成绩（score）四个字段
-（待续...）
+油猴插件请自行在浏览器应用市场搜索关键字Tampermonkey安装。 `QQ浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ ， `猎豹浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ ，`360浏览器 <http://download.chrome.360.cn/ext/Tampermonkey_4.8.41_dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ ，插件安装完成后，打开 `脚本地址 <https://gitee.com/sobweb/FillScore/raw/master/AutoFillScore.user.js>`_ ，点击“安装脚本“即可。
+
+Step 1: Excle操作部分
+----------------------
+
+在Excel中计算成绩并提交数据到服务器中的数据库保存
+
+**step 1.1** 用Excel或WPS打开”成绩录入.xlsm", 并“启用宏”。
+
+.. image:: https://images.gitee.com/uploads/images/2019/1201/162218_3a171ece_1046473.png "启用宏1.png"
+
+.. image:: https://images.gitee.com/uploads/images/2019/1201/162306_0513e867_1046473.png "启用宏2.png"
+
+
+**step 1.2-1** 录入各实验成绩，得到平均分并保存。
+
+.. image:: https://images.gitee.com/uploads/images/2019/1201/161548_ac5af5a2_1046473.png "成绩录入1.png"
+
+**step 1.2-2** 直接录入平均成绩，调整成绩并保存
+
+.. image:: https://images.gitee.com/uploads/images/2019/1201/161635_eb309a75_1046473.png "成绩录入2.png"
+
+Setp 2: 浏览器自动填成绩表
+-------------------------
+Step 2：在浏览器中打开成绩录入页面，由脚本自动填写成绩，手动保存/提交。
+
+.. image:: https://images.gitee.com/uploads/images/2019/1201/162138_4c134ad3_1046473.png "填表.png"
+
+说明结束-END-
+============
 
 JavaScript的习作
 ------------------
