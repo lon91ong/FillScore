@@ -15,7 +15,7 @@ Step 1: Excle操作部分
 
 **step 1.1** 用Excel或WPS打开”成绩录入.xlsm", 并“启用宏”。
 
-.. image:: https://images.gitee.com/uploads/images/2019/1201/162218_3a171ece_1046473.png
+.. image:: ./images/启用宏1.png
 
 .. image:: https://images.gitee.com/uploads/images/2019/1201/162306_0513e867_1046473.png
 
