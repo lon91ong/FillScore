@@ -13,8 +13,8 @@ var svrIP = "10.0.18.207"; //服务器IP
 var col = 5; //期末:5,总评:7
 
 var claName = ''; //保存班级名称
-var quRes = [];
-var sTable = [];
+var quRes = []; //保存服务器返回的结果
+var sTable = []; //页面表单
 var None = null; //适配python的定义
 
 const insP = document.querySelector('#headDiv > ul');
@@ -99,8 +99,7 @@ function execFill() {
 
 function clsForm(){
     for (var i = 1; i < sTable.rows.length; i++) { //排除表头行
-        $(".text_nor.width68", sTable.rows[i].cells[5])[0].value =''; //清空期末成绩
-        //$(".text_nor.width68", sTable.rows[i].cells[7])[0].value =''; //清空总评成绩
+        $(".text_nor.width68", sTable.rows[i].cells[col])[0].value =''; //清空期末成绩
         $("select", sTable.rows[i].cells[8])[0].options[2].selected = true;
     }
     $('#Button4', iframe.contentDocument)[0].click(); //清空总评成绩
