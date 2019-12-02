@@ -15,24 +15,24 @@ Step 1: Excle操作部分
 
 **step 1.1** 用Excel或WPS打开”成绩录入.xlsm", 并“启用宏”。
 
-.. image:: ./images/启用宏1.png
+.. image:: images/启用宏1.png
 
-.. image:: https://images.gitee.com/uploads/images/2019/1201/162306_0513e867_1046473.png
+.. image:: images/启用宏2.png
 
 
 **step 1.2-1** 录入各实验成绩，得到平均分并保存。
 
-.. image:: https://images.gitee.com/uploads/images/2019/1201/161548_ac5af5a2_1046473.png
+.. image:: images/成绩录入1.png
 
 **step 1.2-2** 直接录入平均成绩，调整成绩并保存
 
-.. image:: https://images.gitee.com/uploads/images/2019/1201/161635_eb309a75_1046473.png
+.. image:: images/成绩录入2.png
 
 Setp 2: 浏览器自动填成绩表
 -------------------------
 Step 2：在浏览器中打开成绩录入页面，由脚本自动填写成绩，手动保存/提交。
 
-.. image:: https://images.gitee.com/uploads/images/2019/1201/162138_4c134ad3_1046473.png
+.. image:: images/填表.png
 
 说明结束-END-
 ============
