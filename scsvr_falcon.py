@@ -7,28 +7,28 @@ Created on Wed Nov 27 18:58:34 2019
 
 from sqlite3 import connect#, OperationalError
 from urllib.parse import unquote
-
+from time import localtime
+from os import path #, system
+from sys import exit as sysexit
+from myMod import mbox
+    
 import falcon
 from json import dumps,loads
 from waitress import serve
 from falcon.http_status import HTTPStatus
 
-class G: # Global vars and functions
-    from time import localtime
-    from os import path #, system
-    from sys import exit as sysexit
-    from myMod import mbox
-    dbpath = path.dirname(path.realpath(__file__)) + "/hwmy"
-    if localtime().tm_mon < 8:
-        dbpath += str(localtime().tm_year-2)[-2:]+".db"
-    else:
-        dbpath += str(localtime().tm_year-1)[-2:]+".db"
-    if not path.isfile(dbpath):
-        print('No database file in exe path, check please!')
-        mbox('错误','未能在程序目录下找到数据库文件{}！\n请查验后重试！'.format(dbpath[2:]),'error')
-        sysexit(0)
-    def dict_factory(cursor, row):
-        return dict((col[0], row[idx]) for idx, col in enumerate(cursor.description))
+dbpath = path.dirname(path.realpath(__file__)) + "/hwmy"
+if localtime().tm_mon < 8:
+    dbpath += str(localtime().tm_year-2)[-2:]+".db"
+else:
+    dbpath += str(localtime().tm_year-1)[-2:]+".db"
+if not path.isfile(dbpath):
+    print('No database file in exe path, check please!')
+    mbox('错误','未能在程序目录下找到数据库文件{}！\n请查验后重试！'.format(dbpath[2:]),'error')
+    sysexit(0)
+
+def dict_factory(cursor, row):
+    return dict((col[0], row[idx]) for idx, col in enumerate(cursor.description))
 
 class HandleCORS(object):
     def process_request(self, req, resp):
@@ -40,9 +40,10 @@ class HandleCORS(object):
             raise HTTPStatus(falcon.HTTP_200, body='\n')
 
 class Resource(object):
+    global dapth,dict_factory
     def on_get(self, req, resp):
         print("URL:", req.url)
-        conn = connect(G.dbpath)
+        conn = connect(dbpath)
         #print('Query Cmd:', unquote(req.url))
         if req.path == '/classes':
             curs = conn.cursor()
@@ -50,7 +51,7 @@ class Resource(object):
             resp.body = ','.join(t[0] for t in map(list,curs.fetchall()))
         elif req.path =='/class':
             if req.headers["CLIENT"]=='Excel':
-                conn.row_factory = G.dict_factory
+                conn.row_factory = dict_factory
                 curs = conn.cursor()
                 curs.execute('SELECT id,name,score FROM students where class ="'+unquote(req.query_string)+'"')
                 resp.body = dumps(curs.fetchall(),ensure_ascii=False)
@@ -65,7 +66,7 @@ class Resource(object):
         conn.close()
     def on_post(self, req, resp):
         print("URL:", req.url)
-        conn = connect(G.dbpath)
+        conn = connect(dbpath)
         curs = conn.cursor()
         if req.path == '/updata' and req.headers["CLIENT"]=='Excel':
             scores = loads(req.media)
@@ -85,7 +86,4 @@ app.add_route('/class', Resource())
 app.add_route('/updata', Resource())
 
 serve(app, listen='*:8001')
-
-
-
 
