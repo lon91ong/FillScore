@@ -18,10 +18,10 @@ from waitress import serve
 from falcon.http_status import HTTPStatus
 
 dbpath = path.dirname(path.realpath(__file__)) + "/hwmy"
-if localtime().tm_mon < 8:
-    dbpath += str(localtime().tm_year-2)[-2:]+".db"
-else:
-    dbpath += str(localtime().tm_year-1)[-2:]+".db"
+if localtime().tm_mon < 8 and localtime().tm_mon > 1: # 春季学期
+    dbpath += str(localtime().tm_year-2)[-2:]+"_spring.db"
+else: #秋季学期
+    dbpath += str(localtime().tm_year-1)[-2:]+"_autumn.db"
 if not path.isfile(dbpath):
     print('No database file in exe path, check please!')
     mbox('错误','未能在程序目录下找到数据库文件{}！\n请查验后重试！'.format(dbpath[2:]),'error')
