@@ -22,6 +22,12 @@ JavaScript的习作
 - MutationObserver 这个监听没整明白
  参考 `高效监听DOM变动 <https://hijiangtao.github.io/2017/08/03/How-to-Manipulate-DOM-Effectively/>`_ `参考二 <https://javascript.ruanyifeng.com/dom/mutationobserver.html>`_
 
+- Fetch发出的请求返回值是Promise，需要通过 `IIFE(立即执行函数) <https://segmentfault.com/a/1190000003985390>`_ 包装才能得到返回结果
+ `参考mozilla <https://developer.mozilla.org/zh-CN/docs/Glossary/%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F>`_ , `知乎 <https://zhuanlan.zhihu.com/p/32689741>`_ 
+
+ `Example <https://www.it-swarm.net/zh/javascript/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0asyncawait%E4%BB%8E%E5%BC%82%E6%AD%A5%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%EF%BC%9F/837141330/>`_ ：(async ()=>{result = await launchFetch(encodeURI(urlString));})();
+
+
 记忆深刻的坑
 --------------
 
