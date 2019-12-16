@@ -9,7 +9,7 @@ from sqlite3 import connect#, OperationalError
 from urllib.parse import unquote
 from time import localtime
 from os import path #, system
-from sys import exit as sysexit
+import sys
 from myMod import mbox
     
 import falcon
@@ -26,10 +26,10 @@ else: #秋季学期
 if not path.isfile(dbpath):
     print('No database file in exe path, check please!')
     mbox('错误','未能在程序目录下找到数据库文件{}！\n请查验后重试！'.format(dbpath[2:]),'error')
-    sysexit(0)
+    sys.exit(0)
 print('Database File:',dbpath)
 
-def dict_factory(self, cursor, row):
+def dict_factory(cursor, row):
     return dict((col[0], row[idx]) for idx, col in enumerate(cursor.description))
 
 class HandleCORS(object):
@@ -52,21 +52,23 @@ class Resource(object):
             curs.execute('SELECT class FROM classes')
             resp.body = ','.join(t[0] for t in map(list,curs.fetchall()))
         elif req.path =='/class':
+            resp.append_header('Cache-Control','no-cache, no-store')
             cla = unquote(req.query_string)
             try:
                 print("CLIENT:",req.headers["CLIENT"],"\tClass:",cla)
+            except KeyError:
+                #print("Unexpected error:", sys.exc_info()[0])
+                resp.body = '非法途径访问！'
+            else:
                 if req.headers["CLIENT"]=='Greasemonkey': # Get scores to fill Web Table
                     curs = conn.cursor()
                     curs.execute('SELECT id,score FROM students WHERE class ="'+cla+'"')
                     resp.body = dumps(dict(curs.fetchall()),ensure_ascii=False)
-                else: # Excel
+                if req.headers["CLIENT"]=='Excel': # Excel
                     conn.row_factory = dict_factory
                     curs = conn.cursor()
                     curs.execute('SELECT id,name,score FROM students WHERE class ="'+cla+'"')
                     resp.body = dumps(curs.fetchall(),ensure_ascii=False)
-            except:
-                resp.body = '非法途径访问！'
-                pass
         else:
             resp.body = '非法途径访问！'
             #resp.body = dumps({"success":False,"Contents":"Bad Request Command!"})
@@ -99,3 +101,4 @@ app.add_route('/class', svrRes)
 app.add_route('/updata', svrRes)
 
 serve(app, listen='*:8001')
+
