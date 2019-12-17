@@ -36,9 +36,9 @@ Setp 2: 浏览器自动填成绩表
 
 油猴插件请自行在浏览器应用市场搜索关键字Tampermonkey安装。
 
- `QQ浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ ,`猎豹浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ ,`360浏览器 <http://download.chrome.360.cn/ext/Tampermonkey_4.8.41_dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ 
+`QQ浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ , `猎豹浏览器 <https://pcbrowser.dd.qq.com/pcbrowserbig/qbextension/update/20191117/dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ , `360浏览器 <http://download.chrome.360.cn/ext/Tampermonkey_4.8.41_dhdgffkkebhmkfjojejmpbldmpobfkfo.crx>`_ 
 
- 插件安装完成后,**打开** `脚本地址 <https://gitee.com/sobweb/FillScore/raw/master/AutoFillScore.user.js>`_ 点击“安装“即可。
+插件安装完成后,**打开** `脚本地址 <https://gitee.com/sobweb/FillScore/raw/master/AutoFillScore.user.js>`_ 点击“安装“即可。
 
 .. image:: images/安装脚本.png
 
