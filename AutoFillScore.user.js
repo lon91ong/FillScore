@@ -55,10 +55,12 @@ const iframe = document.getElementById("frame_content");
                 try {
                     claName = $('#ddlBJMC > option:nth-child(1)', iframe.contentDocument)[0].attributes.value.nodeValue;
                     sTable = $('#DataGrid1', iframe.contentDocument)[0];
-                    var saveNode = document.createElement("span"); //添加保存按钮
-                    saveNode.innerHTML='<input type="submit" name="Button1" value="保  存" id="Button1" class="button" />';
-                    var saveParent = $('.footbutton',iframe.contentDocument)[0];
-                    saveParent.insertBefore(saveNode, saveParent.childNodes[0]);
+                    if($('#Button1', iframe.contentDocument).length == 0){ //是否有保存按钮
+                        var saveNode = document.createElement("span"); //添加保存按钮
+                        saveNode.innerHTML='<input type="submit" name="Button1" value="保  存" id="Button1" class="button" />';
+                        var saveParent = $('.footbutton',iframe.contentDocument)[0];
+                        saveParent.insertBefore(saveNode, saveParent.childNodes[0]); 
+                    }
                     execBtn.style.display="block"; //显示按钮
                     clsBtn.style.display="block";
                     $('#rad_4', iframe.contentDocument)[0].click(); //关闭自动保存
