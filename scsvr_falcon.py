@@ -57,8 +57,8 @@ class Resource(object):
             try:
                 print("CLIENT:",req.headers["CLIENT"],"\tClass:",cla)
             except KeyError:
-                #print("Unexpected error:", sys.exc_info()[0])
                 resp.body = '非法途径访问！'
+                pass
             else:
                 if req.headers["CLIENT"]=='Greasemonkey': # Get scores to fill Web Table
                     curs = conn.cursor()
@@ -73,7 +73,6 @@ class Resource(object):
             resp.body = '非法途径访问！'
             #resp.body = dumps({"success":False,"Contents":"Bad Request Command!"})
         resp.status = falcon.HTTP_200
-        curs.close()
         conn.close()
     def on_post(self, req, resp):
         print("URL:", req.url)
