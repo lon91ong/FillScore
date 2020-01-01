@@ -18,10 +18,8 @@ from waitress import serve
 from falcon.http_status import HTTPStatus
 
 dbpath = path.dirname(path.realpath(__file__)) + "/hwmy"
-if localtime().tm_mon < 8 and localtime().tm_mon > 1: # 春季学期
-    dbpath += str(localtime().tm_year-2)[-2:]+"_spring.db"
-else: #秋季学期
-    dbpath += str(localtime().tm_year-1)[-2:]+"_autumn.db"
+dbpath += str(localtime().tm_year-2)[-2:] if localtime().tm_mon < 8 else str(localtime().tm_year-1)[-2:]
+dbpath += "_spring.db" if localtime().tm_mon in range(2,8) else "_autumn.db" #春秋季学期判断
 
 if not path.isfile(dbpath):
     print('No database file in exe path, check please!')
